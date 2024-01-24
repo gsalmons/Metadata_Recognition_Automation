@@ -110,5 +110,5 @@ callFunction("/scripts/createMasterInputFile.py")
 # callFunction("scripts/trainAndSaveModel.py")
 
 # callFunction("scripts/ultimateKFoldFile.py")
-callFunction("/scripts/generatePredictions.py")
+# callFunction("/scripts/generatePredictions.py")
 # print("IT WORKS")

@@ -7,7 +7,7 @@ Outputs: masterInputOracle.tsv
 import os
 import re
 # for group in ["Oracle", "Unlabeled"]: #TODO: change back!
-for group in ["Unlabeled"]:
+for group in ["Oracle"]:
     #CODE TO GENERATE NGRAMS FOR OTHER BIOPROJECTS
     ngrams = dict()
     numProj = 0
@@ -19,6 +19,8 @@ for group in ["Unlabeled"]:
     with open("/bioProjectIds/uniquePhrases.tsv", "r") as dictFile:
         for line in dictFile:
             line = line.rstrip("\n")
+            if line.isspace():
+                continue
             ngrams[line] = 0
 
     with open(f"/bioProjectIds/masterInput{group}1.tsv", "w") as writeFile:
@@ -30,17 +32,16 @@ for group in ["Unlabeled"]:
         for current_file in os.listdir(f'/bioProjectIds/{group.lower()}Columns'):
             if current_file.endswith(".tsv"):
                 bioProjectId = current_file[:-4]
-
                 with open(f"/bioProjectIds/{group.lower()}Columns/" + current_file, "r") as readFile:
                     for line in readFile:
                         ngrams = reset0(ngrams)
                         line = line.rstrip("\n")
-                        if line == "" or line == " " or line == "  " or line == "\t" or line == "\n":
+                        if line.isspace():
                             continue
                         if "," in line:
                             line = re.sub(",", "", line)
                         if "." in line:
-                            line = re.sub(".", "", line)
+                            line = re.sub("\.", "", line)
                         if " " in line:
                             line = re.sub(" ", "_", line)
                         if ":" in line:
@@ -55,6 +56,8 @@ for group in ["Unlabeled"]:
                         line = line.lower()
                         line = line.split("\t")
                         fieldName = line[0]
+                        if fieldName.isspace():
+                            continue
                         uniqueValues = line[1:]
                         for m in line:
                             for i, character in enumerate(m):

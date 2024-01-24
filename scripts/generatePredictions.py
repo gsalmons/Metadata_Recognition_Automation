@@ -7,7 +7,6 @@ from sklearn.ensemble import RandomForestClassifier
 random.seed(1)
 xInput = []
 bioProjectList = []
-#Rename BioProject_ID, BioSample_Attribute_Name, no class prediction. Class_Probability. If blank whitespace remove it. Upload on osf
 
 with open ("/bioProjectIds/masterInputUnlabeled1.tsv", "r") as readFile:
     header = readFile.readline()
