@@ -19,7 +19,7 @@ from sentence_transformers import SentenceTransformer
 for levelAnalysis in ["project", "column"]:
     for method in ["embedding", "ngram"]:
         for metadataFocus in ["race", "sex", "tumor_stage"]:
-
+            print("Working on:", levelAnalysis, method, metadataFocus)
             #If arguments are provided, do just that one. Otherwise do all combinations.
             if len(sys.argv) > 1:
                 levelAnalysis = sys.argv[1]
@@ -81,7 +81,7 @@ for levelAnalysis in ["project", "column"]:
             #Load the input data
             if method == "embedding" and levelAnalysis == "project":
                 model = SentenceTransformer('sentence-transformers/all-roberta-large-v1',device="cpu")
-                for file in os.listdir("bioProjectIds/oracleColumns"):
+                for file in os.listdir("/bioProjectIds/oracleColumns"):
                     filePath = "/bioProjectIds/oracleColumns/" + file
                     projID = file.split(".")[0]
                     if projID not in yTruthDict:
@@ -94,7 +94,7 @@ for levelAnalysis in ["project", "column"]:
                         yTruthList.append(yTruthDict[projID])
                         bioProjectList.append(projID)
             elif method == "ngram" and levelAnalysis == "project":
-                with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
+                with open("/bioProjectIds/masterInputOracle1.tsv", "r") as readFile:
                     header = readFile.readline()
                     ngrams = header.split("\t")[3:]
                     for line in readFile:
@@ -122,7 +122,7 @@ for levelAnalysis in ["project", "column"]:
                     yTruthList.append(yTruthDict[project]["truth"])
                     bioProjectList.append(project)
             elif method == "ngram":
-                with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
+                with open("/bioProjectIds/masterInputOracle1.tsv", "r") as readFile:
                     header = readFile.readline()
                     ngrams = header.split("\t")[3:]
                     for line in readFile:
@@ -144,7 +144,7 @@ for levelAnalysis in ["project", "column"]:
                         allnums += 1
             else:
                 model = SentenceTransformer('sentence-transformers/all-roberta-large-v1',device="cpu")
-                for file in os.listdir("bioProjectIds/oracleColumns"):
+                for file in os.listdir("/bioProjectIds/oracleColumns"):
                     filePath = "/bioProjectIds/oracleColumns/" + file
                     projID = file.split(".")[0]
                     if projID not in yTruthDict:
@@ -165,7 +165,6 @@ for levelAnalysis in ["project", "column"]:
                                     num1 += 1
                             yTruthList.append(yl)
                             allnums += 1
-            print(sum(yTruthList))
             listedLists = xRandomSample
             xRandomSample = np.array(xRandomSample)
 

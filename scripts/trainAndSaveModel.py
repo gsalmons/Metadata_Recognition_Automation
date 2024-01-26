@@ -14,9 +14,6 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     elif metadataFocus == "tumor_stage":
         labeledFile = "/bioProjectIds/tmpTumorTypeLabeledDoc.tsv"
 
-
-
-
     # Load the true labels
     yTruthDict = dict() 
     with open(labeledFile, "r") as readFile:
@@ -42,7 +39,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     allnums = 0
 
     #Load the input data
-    with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
+    with open("/bioProjectIds/masterInputOracle1.tsv", "r") as readFile:
         header = readFile.readline()
         ngrams = header.split("\t")[3:]
         for line in readFile:

@@ -49,7 +49,7 @@ num1 = 0
 allnums = 0
 
 #Load the input data
-with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
+with open("/bioProjectIds/masterInputOracle1.tsv", "r") as readFile:
     header = readFile.readline()
     ngrams = header.split("\t")[3:]
     for line in readFile:
@@ -164,33 +164,33 @@ fpr, tpr, _ = roc_curve(allytestfold, allyscores)
 
 y_pred = rf.predict(x_test_fold)
 
-# Compute confusion matrix
-cm = confusion_matrix(y_test_fold, y_pred)
+# # Compute confusion matrix
+# cm = confusion_matrix(y_test_fold, y_pred)
 
-tn, fp, fn, tp = cm.ravel()
+# tn, fp, fn, tp = cm.ravel()
 
-#sensitivity
-sensitivity = tp / (tp + fn)
+# #sensitivity
+# sensitivity = tp / (tp + fn)
 
-#specificity
-specificity = tn / (tn + fp)
+# #specificity
+# specificity = tn / (tn + fp)
 
-print("tp:", tp)
-print("tn:", tn)
-print("fp:", fp)
-print("fn:", fn)
-print("sensitivity: ", sensitivity)
-print("specificity:", specificity)
+# print("tp:", tp)
+# print("tn:", tn)
+# print("fp:", fp)
+# print("fn:", fn)
+# print("sensitivity: ", sensitivity)
+# print("specificity:", specificity)
 
 # Display confusion matrix
-disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[0, 1])
+# disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[0, 1])
 
 # Plot confusion matrix
-plt.figure(figsize=(8, 6))
-disp.plot(cmap='Blues', values_format='d')
-plt.title('Confusion Matrix')
-plt.savefig('/results/race/confusion_matrix_allsub.png')
-plt.show()
+# plt.figure(figsize=(8, 6))
+# disp.plot(cmap='Blues', values_format='d')
+# plt.title('Confusion Matrix')
+# plt.savefig('/results/race/confusion_matrix_allsub.png')
+# plt.show()
 
 ###We are attempting to find the most imporant ngrams
 feature_importances = rf.feature_importances_

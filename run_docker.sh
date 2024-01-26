@@ -2,8 +2,8 @@
 docker build -t srp33/trial1 .
 
 # Run the Docker container with volume mounts
-# docker run --rm -i -t \
-docker run -d --rm \
+# docker run -d --rm \
+docker run --rm -i -t \
     -v $(pwd)/bioProjectIds:/bioProjectIds/ \
     -v $(pwd)/scripts:/scripts/ \
     -v $(pwd)/results:/results/ \

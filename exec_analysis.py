@@ -26,16 +26,16 @@ def callFunction(script_path, commandType="python", arguments=None):
     return
 
 ###Step 1
-# callFunction("scripts/bioProjToBioSamp.py")
+# callFunction("/scripts/bioProjToBioSamp.py")
 
 # ###Step 2
-# callFunction("scripts/getBioSampleFromJson.py")
+# callFunction("/scripts/getBioSampleFromJson.py")
 
 # ###Step 3
-# callFunction("scripts/getRandomIds.py")
+# callFunction("/scripts/getRandomIds.py")
 
 # ###Step 4
-# callFunction("scripts/IdentifyBiosamplesToLabel.py")
+# callFunction("/scripts/IdentifyBiosamplesToLabel.py")
 
 ###Step 5 
 #Download the biosamples for our randomly picked BioProjects
@@ -44,15 +44,15 @@ def callFunction(script_path, commandType="python", arguments=None):
 # fileSize = 0
 # while fileSizeChanging:
     #fileSizeChanging = False
-    # callFunction("scripts/download.py", "python", "jsons")
+    # callFunction("/scripts/download.py", "python", "jsons")
     # for current_file in os.listdir('/bioSamples'):
     #     if current_file.startswith('keep'):
     #         print(f" - Downloading RunInfos -- biosamples present in {current_file}")
     #         os.system(f"metatools_download biosamples -l /bioSamples/{current_file} /bioSamples/jsons/")
-    # callFunction("scripts/retitling.py")
-    # callFunction("scripts/download.py", "python", "jsons")
+    # callFunction("/scripts/retitling.py")
+    # callFunction("/scripts/download.py", "python", "jsons")
     ##See if downloading continues to be successfull...
-    # with open("bioSamples/keepLoading.txt", "r") as readFile:
+    # with open("/bioSamples/keepLoading.txt", "r") as readFile:
     #     newSize = len(readFile.read().rstrip().split("\n"))
     #     if newSize != fileSize:
     #         fileSizeChanging = True
@@ -64,16 +64,16 @@ def callFunction(script_path, commandType="python", arguments=None):
 
 # while fileSizeChanging:
     # fileSizeChanging = False
-#     callFunction("scripts/download.py", "python", "allJsons")
+#     callFunction("/scripts/download.py", "python", "allJsons")
     # for current_file in os.listdir('/bioSamples'):
     #     if current_file.startswith('keep'): 
     #         print(f" - Downloading RunInfos -- biosamples present in {current_file}")
     #         os.system(f"metatools_download biosamples -l /bioSamples/{current_file} /bioSamples/allJsons/")
 
-    # callFunction("scripts/retitling.py")
-    # callFunction("scripts/download.py", "python", "allJsons")
+    # callFunction("/scripts/retitling.py")
+    # callFunction("/scripts/download.py", "python", "allJsons")
     ##See if downloading continues to be successfull...
-    # with open("bioSamples/keepLoading.txt", "r") as readFile:
+    # with open("/bioSamples/keepLoading.txt", "r") as readFile:
     #     newSize = len(readFile.read().rstrip().split("\n"))
     #     if newSize != fileSize:
     #         fileSizeChanging = True
@@ -82,33 +82,36 @@ def callFunction(script_path, commandType="python", arguments=None):
 ###The above step takes time because only so many requests can be run at a time...
 
 # Step 6
-# callFunction("scripts/getColumnsForInitial.py")
-# callFunction("scripts/getColumnsForOther.py")
+# callFunction("/scripts/getColumnsForInitial.py")
+# callFunction("/scripts/getColumnsForOther.py")
 
 # Step 7
-# callFunction("scripts/uniqueTabDictionary.py")
-callFunction("/scripts/createMasterInputFile.py")
-# callFunction("scripts/createbettermasterfile.py") #in scripts old. TODO: Ask Piccolo if we should get rid of this one
+# callFunction("/scripts/uniqueTabDictionary.py")
+# callFunction("/scripts/createMasterInputFile.py")
+# callFunction("/scripts/createbettermasterfile.py") #in scripts old. TODO: Ask Piccolo if we should get rid of this one
 
 # Step 8
-# callFunction("scripts/createMasterInputWithCount.py")
-# callFunction("scripts/raceWithCount.py")
+# callFunction("/scripts/createMasterInputWithCount.py")
+# callFunction("/scripts/raceWithCount.py")
 # callFunction("/scripts/ourkfold.py")
-# callFunction("scripts/tumor_stage_kfold.py")
-# callFunction("scripts/sexKFold.py")
+# callFunction("/scripts/tumor_stage_kfold.py")
+# callFunction("/scripts/sexKFold.py")
 
-# callFunction("scripts/usingEmbeddings.py")
-# callFunction("scripts/imbalancedRaceKFold.py")
-# callFunction("scripts/usingEmbeddingsWholeProject.py")
-# callFunction("scripts/wholeProjectRace.py")
-# callFunction("scripts/wholeProjectSexNgrams.py")
-# callFunction("scripts/wholeProjectTumorNgrams.py")
-# callFunction("scripts/sexembeddingwholeproj.py")
-# callFunction("scripts/tumorStageEmbeddingWholeProj.py")
+# callFunction("/scripts/usingEmbeddings.py")
+# callFunction("/scripts/imbalancedRaceKFold.py")
+# callFunction("/scripts/usingEmbeddingsWholeProject.py")
+# callFunction("/scripts/wholeProjectRace.py")
+# callFunction("/scripts/wholeProjectSexNgrams.py")
+# callFunction("/scripts/wholeProjectTumorNgrams.py")
+# callFunction("/scripts/sexembeddingwholeproj.py")
+# callFunction("/scripts/tumorStageEmbeddingWholeProj.py")
 
 # Step 9
-# callFunction("scripts/trainAndSaveModel.py")
+# callFunction("/scripts/trainAndSaveModel.py")
 
-# callFunction("scripts/ultimateKFoldFile.py")
+# callFunction("/scripts/ultimateKFoldFile.py")
 # callFunction("/scripts/generatePredictions.py")
+# callFunction("/scripts/includeValues.py")
+# callFunction("/scripts/getGeoSeriesId.py")
+# callFunction("/scripts/doAll2000HaveGeo.py")
 # print("IT WORKS")
