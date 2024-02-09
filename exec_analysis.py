@@ -114,4 +114,8 @@ def callFunction(script_path, commandType="python", arguments=None):
 # callFunction("/scripts/includeValues.py")
 # callFunction("/scripts/getGeoSeriesId.py")
 # callFunction("/scripts/doAll2000HaveGeo.py")
+# callFunction("/scripts/quickViz.py")
+# callFunction("/scripts/compareErrorsMachineHuman.py")
+# callFunction("/scripts/compareSexErrors.py")
+callFunction("/scripts/Quantify.py")
 # print("IT WORKS")
