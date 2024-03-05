@@ -28,6 +28,7 @@ sorted_categories, sorted_percentages = zip(*sorted_combined)
 
 # Color-blind friendly color palette
 colors = plt.cm.tab10(np.arange(len(categories))/len(categories))
+print(colors[2])
 
 # Set global font size for larger text
 plt.rcParams.update({'font.size': 14})  # Adjust the size as needed

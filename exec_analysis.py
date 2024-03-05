@@ -3,15 +3,22 @@
 import subprocess
 import os
 def callFunction(script_path, commandType="python", arguments=None):
-    command = []
+    # Start with the command type and script path
+    command = [commandType, script_path]
+    
+    # If there are any additional arguments, extend the command list with them
     if arguments:
-        command = [commandType, script_path, arguments]
-    else:
-        command = [commandType, script_path]
-    # Run the external Python script
+        if isinstance(arguments, list):
+            command.extend(arguments)  # Use extend() if arguments is a list
+        else:
+            command.append(str(arguments))  # Use append() for a single argument, ensuring it's a string
+    
+    # Run the external script
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     output, error = process.communicate()
     return_code = process.returncode
+    
+    # Handling the output and errors
     if return_code == 0:
         print(f"{script_path} executed successfully.")
         print("Output:")
@@ -20,7 +27,6 @@ def callFunction(script_path, commandType="python", arguments=None):
         print(f"{script_path} failed with return code {return_code}.")
         print("Error:")
         print(error)
-
     with open("/bioProjectIds/test.txt", "w") as wFile:
         wFile.write("It worked!")
     return
@@ -95,7 +101,7 @@ def callFunction(script_path, commandType="python", arguments=None):
 # callFunction("/scripts/raceWithCount.py")
 # callFunction("/scripts/ourkfold.py")
 # callFunction("/scripts/tumor_stage_kfold.py")
-# callFunction("/scripts/sexKFold.py")
+callFunction("/scripts/sexKFold.py")
 
 # callFunction("/scripts/usingEmbeddings.py")
 # callFunction("/scripts/imbalancedRaceKFold.py")
@@ -108,14 +114,18 @@ def callFunction(script_path, commandType="python", arguments=None):
 
 # Step 9
 # callFunction("/scripts/trainAndSaveModel.py")
-
-# callFunction("/scripts/ultimateKFoldFile.py")
+# callFunction("/scripts/kfoldScripts/projectEmbeddingKfold.py")
+# callFunction("/scripts/kfoldScripts/attributeNgramKfold.py")
+# callFunction("/scripts/compareSexErrors.py")
+# callFunction("/scripts/ultimateKFoldFile.py", arguments=["project", "ngram", "sex"])
 # callFunction("/scripts/generatePredictions.py")
 # callFunction("/scripts/includeValues.py")
 # callFunction("/scripts/getGeoSeriesId.py")
 # callFunction("/scripts/doAll2000HaveGeo.py")
 # callFunction("/scripts/quickViz.py")
+# callFunction("/scripts/compareTumorStageError.py")
 # callFunction("/scripts/compareErrorsMachineHuman.py")
 # callFunction("/scripts/compareSexErrors.py")
-callFunction("/scripts/Quantify.py")
+# callFunction("/scripts/Quantify.py")
+# callFunction("/scripts/precisionAllAboveThreshold.py")
 # print("IT WORKS")

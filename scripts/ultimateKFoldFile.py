@@ -19,13 +19,12 @@ from sentence_transformers import SentenceTransformer
 for levelAnalysis in ["project", "column"]:
     for method in ["embedding", "ngram"]:
         for metadataFocus in ["race", "sex", "tumor_stage"]:
-            print("Working on:", levelAnalysis, method, metadataFocus)
             #If arguments are provided, do just that one. Otherwise do all combinations.
             if len(sys.argv) > 1:
                 levelAnalysis = sys.argv[1]
                 method = sys.argv[2]
                 metadataFocus = sys.argv[3]
-
+            print("Working on:", levelAnalysis, method, metadataFocus)
             #Set truth file path
             labeledFile = "/bioProjectIds/yTruthRandomSample.tsv"
             if metadataFocus == "sex":
@@ -231,7 +230,8 @@ for levelAnalysis in ["project", "column"]:
             except:
                 print(train_index, test_index)
                 # Create boxplots for the different cases
-
+            print(len(allytestfold), len(allyscores))
+            # continue
             #Precision recall
             precision, recall, _ = precision_recall_curve(allytestfold, allyscores)
             auc_pr = auc(recall, precision)

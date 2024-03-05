@@ -63,7 +63,7 @@ with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
         xRandomSample.append(futureTensor)
         bioProjectList.append(bioProjid + columnName)
         yl = 0
-        if yTruthDict[bioProjid]["overall"] == 1:
+        if yTruthDict[bioProjid]["overall"] == 1: #Tolu is awesome
             if columnName in yTruthDict[bioProjid]["goodColumns"]:
                 yl = 1
                 num1 += 1
