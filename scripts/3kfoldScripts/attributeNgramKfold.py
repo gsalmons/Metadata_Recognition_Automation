@@ -7,9 +7,10 @@ Outputs:
 - Precision Recall curves, Confusion Matrix 
 - AUC-ROC score
 - Feature importances and top N-grams visualized and saved
-- N-gram frequencies by category 
+- N-gram frequencies by category
 - Results of removing top features and their impact on accuracy visualized and saved
 """
+
 # Code modified from https://www.geeksforgeeks.org/stratified-k-fold-cross-validation/
 from statistics import mean, stdev
 from sklearn.metrics import roc_curve, roc_auc_score
@@ -21,8 +22,6 @@ import matplotlib.pyplot as plt
 import random
 
 random.seed(1)
-levelAnalysis = "column"
-method = "ngram"
 for metadataFocus in ["race", "sex", "tumor_stage"]:
     if metadataFocus == "race":
         filePath = "/bioProjectIds/yTruthRandomSample.tsv"
@@ -30,7 +29,6 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
         filePath = "/bioProjectIds/sexLabeled.tsv"
     else:
         filePath = "/bioProjectIds/tmpTumorTypeLabeledDoc.tsv"
-
     #Load the true labels
     yTruthDict = dict()
     with open(filePath, "r") as readFile:
@@ -56,7 +54,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     allnums = 0
 
     #Load the input data
-    with open("/bioProjectIds/masterInputOracle1.tsv", "r") as readFile:
+    with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
         header = readFile.readline()
         ngrams = header.split("\t")[3:]
         for line in readFile:
@@ -109,35 +107,37 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     allytestfold = []
     whichFold = []
     whichColumns = []
-    try:
-        for train_index, test_index in skf.split(xRandomSample, yTruthList):
-            x_train_fold, x_test_fold = xRandomSample[train_index], xRandomSample[test_index]
-            y_train_fold, y_test_fold = yTruthList[train_index], yTruthList[test_index]
-            rf.fit(x_train_fold, y_train_fold)
-            y_scores = rf.predict_proba(x_test_fold)
-            foldNumber += 1
-            y_scores = rf.predict_proba(x_test_fold)[:, 1]  #TODO: use pos class for boxplot probs. 
-            precision, recall, _ = precision_recall_curve(y_test_fold, y_scores)
-            auc_pr = auc(recall, precision)
-            plt.figure(figsize=(8, 6))
-            plt.plot(recall, precision, color='darkorange', lw=2, label=f'PR curve (AUC = {auc_pr:.2f})')
-            plt.xlabel('Recall')
-            plt.ylabel('Precision')
-            plt.title('Precision-Recall Curve')
-            plt.legend(loc='lower left')
-            plt.grid(True)
-            plt.show()
-            plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/precision_recall_curve_allsub_{foldNumber}.png')
-            for i in range(len(y_scores)):
-                allyscores.append(y_scores[i])
-            for i in range(len(y_test_fold)):
-                allytestfold.append(y_test_fold[i])
-                whichFold.append(foldNumber)
-                whichColumns.append(bioProjectList[test_index[i]])
-    except:
-        print(train_index, test_index)
+    # try:
+    for train_index, test_index in skf.split(xRandomSample, yTruthList):
+        x_train_fold, x_test_fold = xRandomSample[train_index], xRandomSample[test_index]
+        y_train_fold, y_test_fold = yTruthList[train_index], yTruthList[test_index]
+        rf.fit(x_train_fold, y_train_fold)
+        y_scores = rf.predict_proba(x_test_fold)
+        foldNumber += 1
+        y_scores = rf.predict_proba(x_test_fold)[:, 1] 
+        precision, recall, _ = precision_recall_curve(y_test_fold, y_scores)
+        auc_pr = auc(recall, precision)
+        plt.figure(figsize=(8, 6))
+        plt.plot(recall, precision, color='darkorange', lw=2, label=f'PR curve (AUC = {auc_pr:.2f})')
+        plt.xlabel('Recall')
+        plt.ylabel('Precision')
+        plt.title('Precision-Recall Curve')
+        plt.legend(loc='lower left')
+        plt.grid(True)
+        plt.show()
+        plt.savefig(f'/results/column/ngram/{metadataFocus}/precision_recall_curve_allsub_{foldNumber}.png')
+        for i in range(len(y_scores)):
+            allyscores.append(y_scores[i])
+        for i in range(len(y_test_fold)):
+            allytestfold.append(y_test_fold[i])
+            whichFold.append(foldNumber)
+            whichColumns.append(bioProjectList[test_index[i]])
+    # except:
+    #     print("EROOR", train_index, test_index)
 
     #Precision recall
+    print(allytestfold, allyscores)
+    print(len(allytestfold), len(allyscores))
     precision, recall, _ = precision_recall_curve(allytestfold, allyscores)
     auc_pr = auc(recall, precision)
     plt.figure(figsize=(8, 6))
@@ -148,9 +148,9 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     plt.legend(loc='lower left')
     plt.grid(True)
     plt.show()
-    plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/precision_recall_curve.png')
+    plt.savefig(f'/results/column/ngram/{metadataFocus}/precision_recall_curve.png')
 
-    with open(f"/results/{levelAnalysis}/{method}/{metadataFocus}/confidencesallsub.tsv", "w") as writeFile:
+    with open(f"/results/column/ngram/{metadataFocus}/confidencesallsub.tsv", "w") as writeFile:
         writeFile.write(f"Fold\tPrediction\tTruth\tProj&Col\n")
         for i in range(len(allytestfold)):
             writeFile.write(f"{whichFold[i]}\t{allyscores[i]}\t{allytestfold[i]}\t{whichColumns[i]}\n")
@@ -180,7 +180,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     plt.figure(figsize=(8, 6))
     disp.plot(cmap='Blues', values_format='d')
     plt.title('Confusion Matrix')
-    plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/confusion_matrix_allsub.png')
+    plt.savefig(f'/results/column/ngram/{metadataFocus}/confusion_matrix_allsub.png')
     plt.show()
 
     ###We are attempting to find the most imporant ngrams
@@ -193,7 +193,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     sorted_indices = np.argsort(feature_importances)[::-1]
 
     # Select the top n-grams
-    numTop = 10
+    numTop = 50
     top_ngrams = feature_names[sorted_indices][:numTop]
     top_importances = feature_importances[sorted_indices][:numTop]
 
@@ -205,7 +205,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     plt.ylabel('Feature Importance')
     plt.title(f'Top {numTop} Feature Importances in Random Forest')
     plt.tight_layout()
-    plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/mostRelevantNgrams_allsub.png')
+    plt.savefig(f'/results/column/ngram/{metadataFocus}/mostRelevantNgrams_allsub.png')
     plt.show()
 
     #Save the ngrams by importance with their frequencies in race and nonrace. 
@@ -227,13 +227,13 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     for k, value in enumerate(raceAverages):
         raceAverages[k] = value / numDivR
 
-    with open(f"/results/{levelAnalysis}/{method}/{metadataFocus}/ngramFrequencyByCategory.tsv", "w") as writeFile:
+    with open(f"/results/column/ngram/{metadataFocus}/ngramFrequencyByCategory.tsv", "w") as writeFile:
         writeFile.write(f"Importance\tNgram\tFrequency in {metadataFocus} Columns\tFrequency in Non {metadataFocus} Columns\n")
         for i, index in enumerate(sorted_indices):
             writeFile.write(f"{i+1}\t{ngrams[index]}\t{raceAverages[index]}\t{nonraceAverages[index]}\n")
 
     #############################################################################
-    ######REMOVING THE TOP X FEATURES WHAT WOULD HAPPEN?????####################
+    #########REMOVING THE TOP X FEATURES WHAT WOULD HAPPEN?######################
     #############################################################################
 
     # Remove the top X n-grams. It could be the top 50, 100, 150, etc.
@@ -277,7 +277,7 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     plt.legend(loc='lower left')
     plt.grid(True)
     plt.show()
-    plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/precision_recall_curve_{numTop}_removed.png')
+    plt.savefig(f'/results/column/ngram/{metadataFocus}/precision_recall_curve_{numTop}_removed.png')
 
     y_pred = rf.predict(x_test_fold)
 
@@ -306,5 +306,5 @@ for metadataFocus in ["race", "sex", "tumor_stage"]:
     plt.figure(figsize=(8, 6))
     disp.plot(cmap='Blues', values_format='d')
     plt.title('Confusion Matrix')
-    plt.savefig(f'/results/{levelAnalysis}/{method}/{metadataFocus}/confusion_matrix_removed_top{numTop}.png')
+    plt.savefig(f'/results/column/ngram/{metadataFocus}/confusion_matrix_removed_top{numTop}.png')
     plt.show()

@@ -101,7 +101,7 @@ def callFunction(script_path, commandType="python", arguments=None):
 # callFunction("/scripts/raceWithCount.py")
 # callFunction("/scripts/ourkfold.py")
 # callFunction("/scripts/tumor_stage_kfold.py")
-callFunction("/scripts/sexKFold.py")
+callFunction("/scripts/3kfoldScripts/projectNgramKfold.py")
 
 # callFunction("/scripts/usingEmbeddings.py")
 # callFunction("/scripts/imbalancedRaceKFold.py")

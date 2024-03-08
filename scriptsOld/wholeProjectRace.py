@@ -25,8 +25,6 @@ import matplotlib.pyplot as plt
 import random
 
 random.seed(1)
-num1 = 0
-allnums = 0
 
 # Load the true labels
 yTruthDict = dict() 
@@ -38,21 +36,18 @@ with open("/bioProjectIds/yTruthRandomSample.tsv", "r") as readFile:
         tempDict = dict()
         if line[1] == "0":
             tempDict["truth"] = 0
-            tempDict["ngrams"] = []
             yTruthDict[line[0]] = tempDict
-            allnums += 1
         elif line[1] == "1":
             tempDict["truth"] = 1
-            tempDict["ngrams"] = []
             yTruthDict[line[0]] = tempDict 
-            allnums += 1
-            num1 += 1
         else:
             print("Minor problem....", line[0], line[1])               
 bioProjectList = []
 xRandomSample = []
 yTruthList = []
 ngrams = []
+num1 = 0
+allnums = 0
 
 #Load the input data
 with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
@@ -68,20 +63,21 @@ with open("/bioProjectIds/masterInputOracle.tsv", "r") as readFile:
         futureTensor = line[3:]
         for i, value in enumerate(futureTensor):
             futureTensor[i] = int(value)
-        if bioProjid in yTruthDict and yTruthDict[bioProjid]['ngrams'] != []:
+        if "ngrams" in yTruthDict[line[0]]:
             newPart = []
             for i, presence in enumerate(yTruthDict[line[0]]["ngrams"]):
                 if int(presence) > 0 or int(futureTensor[i]) > 0:
                     newPart.append(1)
                 else:
                     newPart.append(0)
-            yTruthDict[line[0]]["ngrams"]=newPart
+            yTruthDict[line[0]]=newPart
         else:
-            yTruthDict[line[0]]["ngrams"] = futureTensor
+            key = str(line[0])
+            if key in yTruthDict:
+                yTruthDict[key]["ngrams"] = futureTensor
 for project in yTruthDict:
     xRandomSample.append(yTruthDict[project]["ngrams"])
     yTruthList.append(yTruthDict[project]["truth"])
-    bioProjectList.append(project)
 print(sum(yTruthList))
 listedLists = xRandomSample
 xRandomSample = np.array(xRandomSample)
@@ -114,7 +110,7 @@ foldNumber = 0
 allyscores = []
 allytestfold = []
 whichFold = []
-projOrder = []
+whichColumns = []
 try:
     for train_index, test_index in skf.split(xRandomSample, yTruthList):
         x_train_fold, x_test_fold = xRandomSample[train_index], xRandomSample[test_index]
@@ -139,7 +135,7 @@ try:
         for i in range(len(y_test_fold)):
             allytestfold.append(y_test_fold[i])
             whichFold.append(foldNumber)
-            projOrder.append(bioProjectList[test_index[i]])
+            whichColumns.append(bioProjectList[test_index[i]])
 
 except:
     print(train_index, test_index)
@@ -148,11 +144,11 @@ except:
 with open("/results/kFoldTsvs/projectRaceconfidencesallsub.tsv", "w") as writeFile:
     writeFile.write(f"Fold\tPrediction\tTruth\tProj&Col\n")
     for i in range(len(allytestfold)):
-        writeFile.write(f"{whichFold[i]}\t{allyscores[i]}\t{allytestfold[i]}\t{projOrder[i]}\n")
-        # if allytestfold[i] == "1" and float(allyscores[i]) < 0.5:
-        #     print(whichColumns[i])
-        # elif allytestfold[i] == "0" and float(allyscores[i]) > 0.5:
-        #     print(whichColumns[i])        
+        writeFile.write(f"{whichFold[i]}\t{allyscores[i]}\t{allytestfold[i]}\t{whichColumns[i]}\n")
+        if allytestfold[i] == "1" and float(allyscores[i]) < 0.5:
+            print(whichColumns[i])
+        elif allytestfold[i] == "0" and float(allyscores[i]) > 0.5:
+            print(whichColumns[i])        
 #Precision recall
 precision, recall, _ = precision_recall_curve(allytestfold, allyscores) #This line threw an error... why?
 auc_pr = auc(recall, precision)
