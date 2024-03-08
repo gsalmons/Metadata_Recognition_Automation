@@ -84,9 +84,9 @@ for threshold in thresholds:
     mac0hum1.append(machine0human1)
     mac1hum1.append(machine1human1)
     mac0hum0.append(machine0human0)
-    if threshold == 0.5:
-        rec = float(machine1human1) / float(machine1human1 + machine0human1)
-        print("REC", rec)
+    # if threshold == 0.5:
+    #     rec = float(machine1human1) / float(machine1human1 + machine0human1)
+    #     print("REC", rec)
     aggregate.append(machine1human0 + machine0human1)
 # print(machine0human0, machine1human1, machine1human0, machine0human1)
 # print(numFound)
@@ -98,8 +98,8 @@ for i in range(len(mac1hum0)):
     recall.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac0hum1[i]))
     precision.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac1hum0[i]))
 print(recall, precision)
-for i in range(len(mac1hum0)):
-    print(recall[i] * precision[i])
+# for i in range(len(mac1hum0)):
+#     print(recall[i] * precision[i])
 
 # precis, reca, thresh = precision_recall_curve(ytrue, scores)
 # auc_pr = auc(reca, precis)

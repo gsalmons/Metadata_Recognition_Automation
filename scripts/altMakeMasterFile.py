@@ -27,8 +27,6 @@ def reset0(dictionary):
 parts = []
 
 for group in ["Unlabeled"]:
-    # ... (unchanged code)
-
     with open("bioProjectIds/uniquePhrases.tsv", "r") as dictFile:
         for line in dictFile:
             line = line.rstrip("\n")

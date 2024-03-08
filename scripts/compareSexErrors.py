@@ -102,7 +102,7 @@ print(precision)
 for i in range(len(mac1hum0)):
     precision.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac1hum0[i]))
 print(precision)
-
+print(recall)
 # print(ytrue, scores)
 # precis, reca, thresh = precision_recall_curve(ytrue, scores)
 # auc_pr = auc(reca, precis)

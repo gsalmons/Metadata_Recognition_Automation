@@ -101,35 +101,37 @@ allyscores = []
 allytestfold = []
 whichFold = []
 whichColumns = []
-try:
-    for train_index, test_index in skf.split(xRandomSample, yTruthList):
-        x_train_fold, x_test_fold = xRandomSample[train_index], xRandomSample[test_index]
-        y_train_fold, y_test_fold = yTruthList[train_index], yTruthList[test_index]
-        rf.fit(x_train_fold, y_train_fold)
-        y_scores = rf.predict_proba(x_test_fold)
-        foldNumber += 1
-        y_scores = rf.predict_proba(x_test_fold)[:, 1]  #TODO: use pos class for boxplot probs. 
-        precision, recall, _ = precision_recall_curve(y_test_fold, y_scores)
-        auc_pr = auc(recall, precision)
-        plt.figure(figsize=(8, 6))
-        plt.plot(recall, precision, color='darkorange', lw=2, label=f'PR curve (AUC = {auc_pr:.2f})')
-        plt.xlabel('Recall')
-        plt.ylabel('Precision')
-        plt.title('Precision-Recall Curve')
-        plt.legend(loc='lower left')
-        plt.grid(True)
-        plt.show()
-        plt.savefig(f'/bioProjectIds/sex/precision_recall_curve_allsub_{foldNumber}.png')
-        for i in range(len(y_scores)):
-            allyscores.append(y_scores[i])
-        for i in range(len(y_test_fold)):
-            allytestfold.append(y_test_fold[i])
-            whichFold.append(foldNumber)
-            whichColumns.append(bioProjectList[test_index[i]])
-except:
-    print(train_index, test_index)
+# try:
+for train_index, test_index in skf.split(xRandomSample, yTruthList):
+    x_train_fold, x_test_fold = xRandomSample[train_index], xRandomSample[test_index]
+    y_train_fold, y_test_fold = yTruthList[train_index], yTruthList[test_index]
+    rf.fit(x_train_fold, y_train_fold)
+    y_scores = rf.predict_proba(x_test_fold)
+    foldNumber += 1
+    y_scores = rf.predict_proba(x_test_fold)[:, 1] 
+    precision, recall, _ = precision_recall_curve(y_test_fold, y_scores)
+    auc_pr = auc(recall, precision)
+    plt.figure(figsize=(8, 6))
+    plt.plot(recall, precision, color='darkorange', lw=2, label=f'PR curve (AUC = {auc_pr:.2f})')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision-Recall Curve')
+    plt.legend(loc='lower left')
+    plt.grid(True)
+    plt.show()
+    plt.savefig(f'/bioProjectIds/sex/precision_recall_curve_allsub_{foldNumber}.png')
+    for i in range(len(y_scores)):
+        allyscores.append(y_scores[i])
+    for i in range(len(y_test_fold)):
+        allytestfold.append(y_test_fold[i])
+        whichFold.append(foldNumber)
+        whichColumns.append(bioProjectList[test_index[i]])
+# except:
+#     print("EROOR", train_index, test_index)
 
 #Precision recall
+print(allytestfold, allyscores)
+print(len(allytestfold), len(allyscores))
 precision, recall, _ = precision_recall_curve(allytestfold, allyscores)
 auc_pr = auc(recall, precision)
 plt.figure(figsize=(8, 6))
@@ -172,7 +174,7 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[0, 1])
 plt.figure(figsize=(8, 6))
 disp.plot(cmap='Blues', values_format='d')
 plt.title('Confusion Matrix')
-plt.savefig('/bioProjectIds/sex/confusion_matrix_allsub.png')
+plt.savefig('/results/sex/confusion_matrix_allsub.png')
 plt.show()
 
 ###We are attempting to find the most imporant ngrams
@@ -197,7 +199,7 @@ plt.xlabel('N-gram')
 plt.ylabel('Feature Importance')
 plt.title(f'Top {numTop} Feature Importances in Random Forest')
 plt.tight_layout()
-plt.savefig('/bioProjectIds/sex/mostRelevantNgrams_allsub.png')
+plt.savefig('/results/sex/mostRelevantNgrams_allsub.png')
 plt.show()
 
 #Save the ngrams by importance with their frequencies in race and nonrace. 
@@ -219,13 +221,13 @@ for k, value in enumerate(nonraceAverages):
 for k, value in enumerate(raceAverages):
     raceAverages[k] = value / numDivR
 
-with open("/bioProjectIds/sex/ngramFrequencyByCategory.tsv", "w") as writeFile:
+with open("/results/sex/ngramFrequencyByCategory.tsv", "w") as writeFile:
     writeFile.write("Importance\tNgram\tFrequency in Sex Columns\tFrequency in Non Sex Columns\n")
     for i, index in enumerate(sorted_indices):
         writeFile.write(f"{i+1}\t{ngrams[index]}\t{raceAverages[index]}\t{nonraceAverages[index]}\n")
 
 #############################################################################
-######REMOVING THE TOP X FEATURES WHAT WOULD HAPPEN?????####################
+#########REMOVING THE TOP X FEATURES WHAT WOULD HAPPEN?######################
 #############################################################################
 
 # Remove the top X n-grams. It could be the top 50, 100, 150, etc.
@@ -269,7 +271,7 @@ plt.title('Precision-Recall Curve')
 plt.legend(loc='lower left')
 plt.grid(True)
 plt.show()
-plt.savefig(f'/bioProjectIds/sex/precision_recall_curve_{numTop}_removed.png')
+plt.savefig(f'/results/sex/precision_recall_curve_{numTop}_removed.png')
 
 y_pred = rf.predict(x_test_fold)
 
@@ -298,5 +300,5 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[0, 1])
 plt.figure(figsize=(8, 6))
 disp.plot(cmap='Blues', values_format='d')
 plt.title('Confusion Matrix')
-plt.savefig(f'/bioProjectIds/sex/confusion_matrix_removed_top{numTop}.png')
+plt.savefig(f'/results/sex/confusion_matrix_removed_top{numTop}.png')
 plt.show()
