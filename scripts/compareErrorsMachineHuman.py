@@ -1,10 +1,10 @@
 import sys
-# from sklearn.metrics import precision_recall_curve, auc
-# import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_curve, auc
+import matplotlib.pyplot as plt
 
 allIdsValidated = set()
 validationAnnotations = dict()
-with open("bioProjectIds/Consensus Validation Labels - Sheet1.tsv", "r") as readFile:
+with open("/bioProjectIds/Consensus Validation Labels - Sheet1.tsv", "r") as readFile:
     header = readFile.readline()
     for row in readFile:
         row = row.rstrip().split("\t")
@@ -43,7 +43,7 @@ for threshold in thresholds:
     if threshold == thresholds[-1]:
         getscores = True
     #Race
-    with open("bioProjectIds/racePredictionLabels.tsv", "r") as readFile:
+    with open("/bioProjectIds/racePredictionLabels.tsv", "r") as readFile:
         header = readFile.readline()
         for line in readFile:
             line = line.rstrip("\n").split("\t")
@@ -98,24 +98,21 @@ for i in range(len(mac1hum0)):
     recall.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac0hum1[i]))
     precision.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac1hum0[i]))
 print(recall, precision)
-# for i in range(len(mac1hum0)):
-#     print(recall[i] * precision[i])
 
-# precis, reca, thresh = precision_recall_curve(ytrue, scores)
-# auc_pr = auc(reca, precis)
-# print(auc_pr)
+precis, reca, thresh = precision_recall_curve(ytrue, scores)
+auc_pr = auc(reca, precis)
+print(auc_pr)
 
-# plt.plot(thresholds, mac0hum1, label='Machine 0 Human 1', color='blue', linestyle='-', marker='o')
-# plt.plot(thresholds, mac1hum0, label='Machine 1 Human 0', color='red', linestyle='--', marker='x')
-# plt.plot(thresholds, aggregate, label='Total errors', color='black', linestyle='-.', marker='+')
+plt.figure(figsize=(8, 6))
+plt.plot(reca, precis, label=f'Precision-Recall curve (area = {auc_pr:.2f})')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('Ancestry Precision-Recall Curve')
+plt.legend(loc="best")
 
-# plt.title('Errors by Threshold')
-# plt.xlabel('Threshold for Classification as Relevant')
-# plt.ylabel('Number of errors per 3000 datasets')
-
-# # Showing legend
-# plt.legend()
-# plt.savefig("/results/errorVisualizationRace.png")
-# # Display the chart
-# plt.show()
-# print(machine1human0set)
+# Optionally, add a no-skill line: a straight line representing random guessing
+# Calculate the ratio of positives: sum(ytrue) / len(ytrue)
+# no_skill = sum(ytrue) / len(ytrue)
+# plt.plot([0, 1], [no_skill, no_skill], linestyle='--', label='No Skill')
+plt.savefig('/results/precision_recall_curve_race.png', dpi=300)
+plt.show()

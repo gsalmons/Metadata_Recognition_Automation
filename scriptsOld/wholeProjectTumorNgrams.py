@@ -2,7 +2,7 @@
 Objective: Using Random Forest on entire bioproject to predict class.
 Inputs: 
 - Input data loaded from masterInputOracle.tsv
-- True labels loaded from tmpTumorTypeLabeledDoc.tsv and edited to be whole project
+- True labels loaded from bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv and edited to be whole project
 Outputs: 
 - Precision Recall curves, Confusion Matrix 
 - AUC-ROC score
@@ -30,7 +30,7 @@ allnums = 0
 
 # Load the true labels
 yTruthDict = dict() 
-with open("/bioProjectIds/tmpTumorTypeLabeledDoc.tsv", "r") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv", "r") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip("\n")

@@ -26,11 +26,11 @@ for levelAnalysis in ["project", "column"]:
                 metadataFocus = sys.argv[3]
             print("Working on:", levelAnalysis, method, metadataFocus)
             #Set truth file path
-            labeledFile = "/bioProjectIds/yTruthRandomSample.tsv"
+            labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/race.tsv"
             if metadataFocus == "sex":
-                labeledFile = "/bioProjectIds/sexLabeled.tsv"
+                labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv"
             elif metadataFocus == "tumor_stage":
-                labeledFile = "/bioProjectIds/tmpTumorTypeLabeledDoc.tsv"
+                labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv"
             num1 = 0
             allnums = 0
             random.seed(1)

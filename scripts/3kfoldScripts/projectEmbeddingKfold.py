@@ -16,13 +16,34 @@ import os
 from sentence_transformers import SentenceTransformer 
 random.seed(1)
 
+
+def create_folder_if_not_exists(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+        print(f"Folder '{folder_path}' created successfully.")
+    else:
+        print(f"Folder '{folder_path}' already exists.")
+
+# Example usage:
+folder_path = "/results"
+create_folder_if_not_exists(folder_path)
+for level in ["column", "project"]:
+    path = folder_path + f"/{level}"
+    create_folder_if_not_exists(path)
+    for method in ["embedding", "ngram"]:
+        pathMethod = path + f"/{method}"
+        create_folder_if_not_exists(pathMethod)
+        for metadata in ["race", "sex", "tumor_stage"]:
+            pathMethodMeta = pathMethod+ f"/{metadata}"
+            create_folder_if_not_exists(pathMethodMeta)
+
 for metadataFocus in ["race", "sex", "tumor_stage"]:
     if metadataFocus == "race":
-        filePath = "/bioProjectIds/yTruthRandomSample.tsv"
+        filePath = "/bioProjectIds/manuallyCuratedFiles/training2000/race.tsv"
     elif metadataFocus == "sex":
-        filePath = "/bioProjectIds/sexLabeled.tsv"
+        filePath = "/bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv"
     else:
-        filePath = "/bioProjectIds/tmpTumorTypeLabeledDoc.tsv"
+        filePath = "/bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv"
 
     num1 = 0
     allnums = 0

@@ -8,11 +8,11 @@ import random
 random.seed(1)
 for metadataFocus in ["race", "sex", "tumor_stage"]:
     #Set truth file path
-    labeledFile = "/bioProjectIds/yTruthRandomSample.tsv"
+    labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/race.tsv"
     if metadataFocus == "sex":
-        labeledFile = "/bioProjectIds/sexLabeled.tsv"
+        labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv"
     elif metadataFocus == "tumor_stage":
-        labeledFile = "/bioProjectIds/tmpTumorTypeLabeledDoc.tsv"
+        labeledFile = "/bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv"
 
     # Load the true labels
     yTruthDict = dict() 

@@ -29,7 +29,7 @@ metadataFocus = "sex"
 
 # Load the true labels
 yTruthDict = dict() 
-with open("/bioProjectIds/sexLabeled.tsv", "r") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv", "r") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip("\n")

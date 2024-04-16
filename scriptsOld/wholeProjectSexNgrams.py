@@ -2,7 +2,7 @@
 Objective: Using Random Forest on entire bioproject to predict class.
 Inputs: 
 - Input data loaded from masterInputOracle.tsv
-- True labels loaded from yTruthRandomSample.tsv and edited to be whole project
+- True labels loaded from bioProjectIds/manuallyCuratedFiles/training2000/race.tsv and edited to be whole project
 Outputs: 
 - Precision Recall curves, Confusion Matrix 
 - AUC-ROC score

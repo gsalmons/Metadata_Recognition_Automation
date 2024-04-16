@@ -46,7 +46,7 @@ with open("bioProjectIds/racePredictionLabels.tsv") as readFile:
                         else:
                             relevantProjectsAndAttributes[line[0]] = [line[1]]
 #Load in our hand labeled 2000 as well!
-with open("bioProjectIds/yTruthRandomSample.tsv") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/race.tsv") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip()
@@ -151,7 +151,7 @@ with open("bioProjectIds/sexPredictionLabels.tsv", "r") as readFile:
             #Need to check if it is in one of the 3000
 
 #Load in our hand labeled 2000 as well!
-with open("bioProjectIds/sexLabeled.tsv") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip()

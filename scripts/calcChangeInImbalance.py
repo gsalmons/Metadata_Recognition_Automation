@@ -1,6 +1,7 @@
-totalNumDatasets = 135406# 25653 unlooked at datasets, 27653 total datasets. 135406 unfiltered attributes
+totalNumDatasets = 25653 #135406# 25653 unlooked at datasets, 27653 total datasets. 135406 unfiltered attributes
 #Number looked through TODO: Change total Num Datasets to total num attributes!
-lookedThroughSex = 3785
+
+lookedThroughSex = 3504 #3504 bioprojects, 3785 attributes
 lookedThroughRace = 1125
 lookedThroughTumor = 992
 
@@ -38,6 +39,7 @@ percentMissingRace = 100 - (imbalanceRace * 100)
 percentMissingSex = 100 - (imbalanceSex * 100)
 percentMissingTumor = 100 - (imbalanceTumor * 100)
 
+print(imbalanceSex)
 print("Percent of attributes not about race:", percentMissingRace)
 # print("Race speed up creating model from scratch", speedUpScratchRace)
 print("Race speed up if model already trained", speedUpRace)

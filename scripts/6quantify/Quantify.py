@@ -9,7 +9,7 @@ categories = dict()
 categoryCount = dict()
 for i in range(10):
     categoryCount[i] = 0
-with open("bioProjectIds/raceGroupings.tsv", "r") as readFile:
+with open("bioProjectIds/manuallyCuratedFiles/quantify/race.tsv", "r") as readFile:
     header = readFile.readline()
     for numberLine, line in enumerate(readFile):
         line = line.rstrip()
@@ -38,7 +38,7 @@ with open("bioProjectIds/racePredictionLabels.tsv") as readFile:
                 relevantProjectsAndAttributes[line[0]] = [line[1]]
 
 #Load in our hand labeled 2000 as well!
-with open("bioProjectIds/yTruthRandomSample.tsv") as readFile:
+with open("bioProjectIds/manuallyCuratedFiles/training2000/race.tsv") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip()
@@ -108,7 +108,7 @@ with open("results/quantifyRepresentation/race.tsv", "w") as writeFile:
 # categoryCount = dict()
 # for i in range(3):
 #     categoryCount[i] = 0
-# with open("bioProjectIds/sexGrouping.tsv", "r") as readFile:
+# with open("bioProjectIds/manuallyCuratedFiles/quantify/sex.tsv", "r") as readFile:
 #     header = readFile.readline()
 #     for numberLine, line in enumerate(readFile):
 #         line = line.rstrip()
@@ -138,7 +138,7 @@ with open("results/quantifyRepresentation/race.tsv", "w") as writeFile:
 # print(len(relevantProjectsAndAttributes))
 # # sys.exit()
 # #Load in our hand labeled 2000 as well!
-# with open("bioProjectIds/sexLabeled.tsv") as readFile:
+# with open("bioProjectIds/manuallyCuratedFiles/training2000/sex.tsv") as readFile:
 #     header = readFile.readline()
 #     for line in readFile:
 #         line = line.rstrip()

@@ -29,7 +29,7 @@ metadataFocus = "tumor_stage"
 
 # Load the true labels
 yTruthDict = dict() 
-with open("/bioProjectIds/tmpTumorTypeLabeledDoc.tsv", "r") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/tumor_stage.tsv", "r") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip("\n")

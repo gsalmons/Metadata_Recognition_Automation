@@ -101,8 +101,10 @@ def callFunction(script_path, commandType="python", arguments=None):
 # callFunction("/scripts/raceWithCount.py")
 # callFunction("/scripts/ourkfold.py")
 # callFunction("/scripts/tumor_stage_kfold.py")
-callFunction("/scripts/3kfoldScripts/projectNgramKfold.py")
-
+# callFunction("/scripts/3kfoldScripts/projectNgramKfold.py")
+# callFunction("/scripts/compareSexErrors.py")
+# callFunction("/scripts/compareErrorsMachineHuman.py")
+# callFunction("/scripts/compareTumorStageError.py")
 # callFunction("/scripts/usingEmbeddings.py")
 # callFunction("/scripts/imbalancedRaceKFold.py")
 # callFunction("/scripts/usingEmbeddingsWholeProject.py")
@@ -114,8 +116,10 @@ callFunction("/scripts/3kfoldScripts/projectNgramKfold.py")
 
 # Step 9
 # callFunction("/scripts/trainAndSaveModel.py")
-# callFunction("/scripts/kfoldScripts/projectEmbeddingKfold.py")
-# callFunction("/scripts/kfoldScripts/attributeNgramKfold.py")
+# callFunction("/scripts/3kfoldScripts/attributeEmbeddingKfold.py") #This script works!
+callFunction("/scripts/3kfoldScripts/attributeNgramKfold.py") #This script works!
+# callFunction("/scripts/3kfoldScripts/projectEmbeddingKfold.py") #This script works!
+# callFunction("/scripts/3kfoldScripts/projectNgramKfold.py")
 # callFunction("/scripts/compareSexErrors.py")
 # callFunction("/scripts/ultimateKFoldFile.py", arguments=["project", "ngram", "sex"])
 # callFunction("/scripts/generatePredictions.py")

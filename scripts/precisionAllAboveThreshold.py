@@ -23,13 +23,11 @@ for grouping in ["race", "sex", "tumor_stage"]:
                         if int(line[-1].rstrip()) == 1:
                             tp += 1
                         else:
-                            # if threshold > 0.3:
-                            #     print(line)
                             fp += 1
-                            # print(line)
                 except:
                     print(line)
         precision = float(tp)/float(tp+fp)
+        recall = float(tp)/float(tp+fn)
         print(grouping, threshold, tp, fp, precision)
         group.append(precision)
     toVisualize[grouping] = group

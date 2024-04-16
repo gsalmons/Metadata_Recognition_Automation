@@ -40,15 +40,18 @@ for threshold in thresholds:
     ourLabeleingError = 0
     numFound = 0
     doubleCheckMe = set()
+    thoseChecked = set()
     #Race
     getscores = False
     if threshold == thresholds[-1]:
         getscores = True
-    for filepath in [ "bioProjectIds/sexPredictionLabels.tsv"]: #"/bioProjectIds/racePredictionLabels.tsv",
+    for filepath in ["bioProjectIds/sexPredictionLabels.tsv"]: #"/bioProjectIds/racePredictionLabels.tsv",
         with open(filepath, "r") as readFile:
             header = readFile.readline()
             for line in readFile:
                 line = line.rstrip("\n").split("\t")
+                if float(line[2]) >= threshold:
+                    thoseChecked.add(line[0])
                 if line[0] in allIdsValidated:
                     if getscores:
                         if line[0] in validationAnnotations:
@@ -82,6 +85,8 @@ for threshold in thresholds:
                             machine0human0 += 1
 
                         #Machine thinks this is not relevant
+    print(len(thoseChecked))
+    sys.exit()
     checkThese[threshold] = doubleCheckMe
     mac1hum0.append(machine1human0)
     mac0hum1.append(machine0human1)
@@ -103,22 +108,21 @@ for i in range(len(mac1hum0)):
     precision.append(float(mac1hum1[i]) / float(mac1hum1[i] + mac1hum0[i]))
 print(precision)
 print(recall)
-# print(ytrue, scores)
+print(ytrue, scores)
 # precis, reca, thresh = precision_recall_curve(ytrue, scores)
 # auc_pr = auc(reca, precis)
 # print(auc_pr)
 
-# plt.plot(thresholds, precision, label='Precision', color='blue', linestyle='-', marker='o')
-# plt.plot(thresholds, recall, label='Recall', color='red', linestyle='--', marker='x')
-# plt.plot(thresholds, f1, label='F1', color='black', linestyle='-.', marker='+')
+# plt.figure(figsize=(8, 6))
+# plt.plot(reca, precis, label=f'Precision-Recall curve (area = {auc_pr:.2f})')
+# plt.xlabel('Recall')
+# plt.ylabel('Precision')
+# plt.title('Sex Precision-Recall Curve')
+# plt.legend(loc="best")
 
-# plt.title('Errors by Threshold')
-# plt.xlabel('Threshold for Classification as Relevant')
-# plt.ylabel('Number of errors per 3000 datasets')
-
-# # Showing legend
-# plt.legend()
-# plt.savefig("/results/errorVisualizationSex.png")
-# # Display the chart
+# # Optionally, add a no-skill line: a straight line representing random guessing
+# # Calculate the ratio of positives: sum(ytrue) / len(ytrue)
+# # no_skill = sum(ytrue) / len(ytrue)
+# # plt.plot([0, 1], [no_skill, no_skill], linestyle='--', label='No Skill')
+# plt.savefig('/results/precision_recall_curve_sex.png', dpi=300)
 # plt.show()
-# print(checkThese)

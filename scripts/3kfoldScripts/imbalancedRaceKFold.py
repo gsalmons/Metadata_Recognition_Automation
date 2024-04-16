@@ -2,7 +2,7 @@
 Objective: Using Random Forest on individual columns of bioprojects to predict outcomes.
 Inputs: 
 - Input data loaded from masterInputOracle.tsv
-- True labels loaded from yTruthRandomSample.tsv
+- True labels loaded from bioProjectIds/manuallyCuratedFiles/training2000/race.tsv
 Outputs: 
 - Precision Recall curves, Confusion Matrix 
 - AUC-ROC score
@@ -28,7 +28,7 @@ random.seed(1)
 
 # Load the true labels
 yTruthDict = dict() 
-with open("/bioProjectIds/yTruthRandomSample.tsv", "r") as readFile:
+with open("/bioProjectIds/manuallyCuratedFiles/training2000/race.tsv", "r") as readFile:
     header = readFile.readline()
     for line in readFile:
         line = line.rstrip("\n")

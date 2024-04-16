@@ -1,11 +1,11 @@
 import sys
-# import matplotlib.pyplot as plt
-# from sklearn.metrics import precision_recall_curve, auc
+import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_curve, auc
 
 
 allIdsValidated = set()
 validationAnnotations = dict()
-with open("bioProjectIds/Consensus Validation Labels - Sheet1.tsv", "r") as readFile:
+with open("/bioProjectIds/Consensus Validation Labels - Sheet1.tsv", "r") as readFile:
     header = readFile.readline()
     for row in readFile:
         row = row.rstrip().split("\t")
@@ -44,7 +44,7 @@ for threshold in thresholds:
     if threshold == thresholds[-1]:
         getscores = True
     #Race
-    for filepath in ["bioProjectIds/tumor_stagePredictionLabels.tsv"]: 
+    for filepath in ["/bioProjectIds/tumor_stagePredictionLabels.tsv"]: 
         with open(filepath, "r") as readFile:
             header = readFile.readline()
             for line in readFile:
@@ -98,21 +98,24 @@ if numFound == (machine0human0 + machine1human1 + machine1human0 + machine0human
     print("Exact")
 print(mac1hum0, mac0hum1)
 # print(ytrue)
-# precis, reca, thresh = precision_recall_curve(ytrue, scores)
-# auc_pr = auc(reca, precis)
-# print(auc_pr)
+precis, reca, thresh = precision_recall_curve(ytrue, scores)
+auc_pr = auc(reca, precis)
+print(auc_pr)
 
-# plt.plot(thresholds, mac0hum1, label='Machine 0 Human 1', color='blue', linestyle='-', marker='o')
-# plt.plot(thresholds, mac1hum0, label='Machine 1 Human 0', color='red', linestyle='--', marker='x')
-# plt.plot(thresholds, aggregate, label='Total errors', color='black', linestyle='-.', marker='+')
+precis, reca, thresh = precision_recall_curve(ytrue, scores)
+auc_pr = auc(reca, precis)
+print(auc_pr)
 
-# plt.title('Errors by Threshold')
-# plt.xlabel('Threshold for Classification as Relevant')
-# plt.ylabel('Number of errors per 3000 datasets')
+plt.figure(figsize=(8, 6))
+plt.plot(reca, precis, label=f'Precision-Recall curve (area = {auc_pr:.2f})')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('Tumor Stage Precision-Recall Curve')
+plt.legend(loc="lower left")
 
-# # Showing legend
-# plt.legend()
-# plt.savefig("/results/errorVisualizationTumorStages.png")
-# # Display the chart
-# plt.show()
-# print(machine1human0set)
+# Optionally, add a no-skill line: a straight line representing random guessing
+# Calculate the ratio of positives: sum(ytrue) / len(ytrue)
+# no_skill = sum(ytrue) / len(ytrue)
+# plt.plot([0, 1], [no_skill, no_skill], linestyle='--', label='No Skill')
+plt.savefig('/results/precision_recall_curve_tumor_stage.png', dpi=300)
+plt.show()
